@@ -26,3 +26,6 @@ test-results/
 .playwright-mcp/
 *.jpeg
 e2e/.fixtures/
+
+.vercel
+.env*
