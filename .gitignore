@@ -1,0 +1,28 @@
+# deps
+node_modules/
+
+# next
+.next/
+out/
+next-env.d.ts
+
+# env — secrets never enter git
+.env
+.env.*
+!.env.example
+
+# tests
+coverage/
+playwright-report/
+test-results/
+
+# misc
+*.log
+.DS_Store
+.vercel/
+.turbo/
+
+# browser QA artifacts
+.playwright-mcp/
+*.jpeg
+e2e/.fixtures/

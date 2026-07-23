@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/*
+  Swoon design tokens.
+
+  The palette comes from the brand brief: blush, pink, charcoal, cream,
+  restrained blue. Extended here with rose (deep accent for type on light
+  surfaces) and ink variants for the dark in-call chrome. Typography:
+  Fraunces (display serif), Pinyon Script (romantic script moments),
+  Schibsted Grotesk (UI/body). Font variables are set by next/font in the
+  root layout.
+*/
+@theme {
+  --color-cream-50: #faf6f4;
+  --color-cream-100: #f5edea;
+  --color-cream-200: #eeeeee;
+
+  --color-blush-100: #fbe9e7;
+  --color-blush-200: #f4cccc;
+  --color-blush-300: #ffc2c2;
+  --color-blush-400: #f4a9b0;
+
+  --color-rose-500: #d9848f;
+  --color-rose-600: #c06a78;
+  --color-rose-700: #a05262;
+
+  --color-charcoal-700: #4a4040;
+  --color-charcoal-800: #383030;
+  --color-charcoal-900: #2d2727;
+  --color-ink-950: #211c1c;
+  --color-ink-990: #171313;
+
+  --color-bluebell-500: #4d779d;
+  --color-bluebell-700: #3a5a78;
+
+  --color-success-600: #5d8a66;
+  --color-danger-600: #b8494f;
+
+  --shadow-lift: 0 1px 2px rgb(45 39 39 / 0.05), 0 8px 24px -8px rgb(45 39 39 / 0.12);
+  --shadow-float: 0 2px 6px rgb(45 39 39 / 0.06), 0 24px 48px -16px rgb(45 39 39 / 0.18);
+
+  --radius-soft: 1.25rem;
+
+  --animate-drift: drift 14s ease-in-out infinite alternate;
+  --animate-pulse-heart: pulse-heart 1.6s ease-in-out infinite;
+
+  @keyframes drift {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(0, -14px, 0) rotate(2deg); }
+  }
+  @keyframes pulse-heart {
+    0%, 100% { transform: scale(1); }
+    35% { transform: scale(1.12); }
+  }
+}
+
+/* Font tokens reference the CSS variables emitted by next/font on <body>,
+   so they must be inline (resolved at point of use, not at :root). */
+@theme inline {
+  --font-display: var(--font-fraunces), "Georgia", serif;
+  --font-script: var(--font-pinyon), cursive;
+  --font-sans: var(--font-grotesk), system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-cream-50);
+  color: var(--color-charcoal-900);
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-blush-300);
+  color: var(--color-charcoal-900);
+}
+
+/* Focus visibility is part of the brand: a rose ring on light, blush on dark. */
+:focus-visible {
+  outline: 2px solid var(--color-rose-600);
+  outline-offset: 2px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--color-blush-300);
+}
+
+/* Grain overlay used on marketing surfaces to kill the flat digital look.
+   A tiny SVG turbulence tile, barely visible, never on video. */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.15 0 0 0 0 0.15 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
