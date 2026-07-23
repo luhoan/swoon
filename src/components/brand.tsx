@@ -1,43 +1,65 @@
+import Image from "next/image";
 import Link from "next/link";
 
 /**
- * The swan mark, redrawn as vector so it stays crisp at any size and can be
- * tinted. Shape follows the supplied logo: raised wing, curved neck, small
- * heart floating at the beak.
+ * Brand components built from the supplied artwork (logo.png / title.png).
+ * Transparent derivatives live in public/brand — originals are untouched.
  */
+
+/** The pink swan mark, cropped from title.png. Decorative by default. */
 export function SwanMark({
-  className = "h-8 w-8",
-  title = "Swoon",
+  className = "h-8 w-auto",
+  alt = "",
 }: {
   className?: string;
-  title?: string;
+  alt?: string;
 }) {
   return (
-    <svg
-      viewBox="0 0 64 64"
-      fill="none"
+    <Image
+      src="/brand/swan.png"
+      width={640}
+      height={621}
+      alt={alt}
+      aria-hidden={alt === "" ? true : undefined}
       className={className}
-      role="img"
-      aria-label={title}
-    >
-      {/* wing */}
-      <path
-        d="M14 40c2.5-9 9.5-15.5 19-17.5-4 4.5-5.5 9-5 13.5 3.5-6 8.5-9.5 15-10.5-3.5 4-5 8-4.5 12 3-3.5 7-5.5 12-6-5 3.5-8 7.5-9 12.5-.4 2-2 3.5-4 3.5H21c-3.8 0-7.3-2.9-7-7.5Z"
-        fill="currentColor"
-        opacity="0.9"
-      />
-      {/* neck and head */}
-      <path
-        d="M40 47.5c7-1 11.5-5.5 11.5-12.5 0-5-2.5-7.8-2.5-11.5 0-3.2 2-5.5 4.5-6.5-1.2-.6-2.6-.9-4-.8-4.4.3-7.5 3.9-7.5 8.3 0 5.5 3 8.5 3 13 0 4.5-2.5 8-5 10Z"
-        fill="currentColor"
-      />
-      {/* heart at the beak */}
-      <path
-        d="M55.2 13.2c1-1.2 2.8-1.2 3.8-.1 1 1.1.9 2.9-.2 3.9l-3.4 3-3.1-3.3c-1-1.1-1-2.9.1-3.9 1.1-1 2.8-.9 3.8.4Z"
-        fill="currentColor"
-        opacity="0.85"
-      />
-    </svg>
+    />
+  );
+}
+
+/** The "Swoon" logotype (heart in the second o), cropped from title.png. */
+export function Wordmark({
+  className = "h-5 w-auto",
+  onDark = false,
+}: {
+  className?: string;
+  onDark?: boolean;
+}) {
+  return (
+    <Image
+      src="/brand/wordmark.png"
+      width={640}
+      height={143}
+      alt="Swoon"
+      // The logotype is near-black; on dark chrome render it white.
+      className={`${className} ${onDark ? "brightness-0 invert" : ""}`}
+    />
+  );
+}
+
+/** The rounded-square app icon (logo.png). Reads well on dark surfaces. */
+export function AppIcon({
+  className = "h-8 w-8 rounded-lg",
+}: {
+  className?: string;
+}) {
+  return (
+    <Image
+      src="/brand/app-icon.png"
+      width={512}
+      height={512}
+      alt="Swoon"
+      className={className}
+    />
   );
 }
 
@@ -54,19 +76,10 @@ export function BrandLockup({
     <Link
       href={href}
       className={`group inline-flex items-center gap-2 ${className}`}
+      aria-label="Swoon"
     >
-      <SwanMark
-        className={`h-7 w-7 transition-transform group-hover:-rotate-6 ${
-          dark ? "text-blush-300" : "text-rose-500"
-        }`}
-      />
-      <span
-        className={`font-display text-2xl font-medium tracking-tight ${
-          dark ? "text-cream-100" : "text-charcoal-900"
-        }`}
-      >
-        Sw<span className={dark ? "text-blush-300" : "text-rose-500"}>oo</span>n
-      </span>
+      <SwanMark className="h-9 w-auto transition-transform group-hover:-rotate-6" />
+      <Wordmark className="h-[1.15rem] w-auto" onDark={dark} />
     </Link>
   );
 }

@@ -82,7 +82,7 @@ export default function MatchPage({
               </span>
             )}
           </div>
-          <SwanMark className="z-10 -mx-3 h-12 w-12 animate-pulse-heart text-rose-500" />
+          <SwanMark className="z-10 -mx-4 h-14 w-auto animate-pulse-heart drop-shadow-[0_0_12px_rgba(217,132,143,0.5)]" />
           <div className="relative h-28 w-28 overflow-hidden rounded-full border-2 border-blush-300 sm:h-32 sm:w-32">
             {match?.partner.photo_path ? (
               <Image

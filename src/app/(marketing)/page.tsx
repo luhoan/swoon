@@ -59,7 +59,7 @@ function DatePhone() {
             Skip
           </span>
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-600 shadow-float">
-            <SwanMark className="h-6 w-6 text-cream-50" title="" />
+            <SwanMark className="h-6 w-auto brightness-0 invert" />
           </span>
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-[0.5rem] text-cream-100/70">
             Next
@@ -213,10 +213,7 @@ export default function LandingPage() {
           aria-hidden
           className="absolute -right-40 top-24 h-[36rem] w-[36rem] rounded-full bg-blush-200/50 blur-3xl"
         />
-        <SwanMark
-          className="absolute -left-24 bottom-0 h-96 w-96 text-blush-200/60"
-          title=""
-        />
+        <SwanMark className="absolute -left-24 bottom-0 h-96 w-auto opacity-40" />
 
         <div className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-5 pb-20 pt-16 lg:grid-cols-[1.05fr_1fr] lg:pt-24">
           <div>
@@ -398,10 +395,7 @@ export default function LandingPage() {
 
       {/* ---------------- Closing CTA ---------------- */}
       <section className="on-dark grain relative overflow-hidden bg-ink-990 py-20 text-cream-100">
-        <SwanMark
-          className="absolute -right-20 -top-24 h-80 w-80 text-white/5"
-          title=""
-        />
+        <SwanMark className="absolute -right-20 -top-24 h-80 w-auto opacity-10" />
         <div className="relative mx-auto flex w-full max-w-6xl flex-col items-start gap-8 px-5 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-display text-4xl leading-tight">

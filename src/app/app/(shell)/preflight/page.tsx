@@ -117,7 +117,7 @@ export default function PreflightPage() {
           {/* Searching overlay: swan drifts over the preview while we pair. */}
           {searching && media.status === "ready" && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-ink-950/70 backdrop-blur-[2px]">
-              <SwanMark className="h-16 w-16 animate-pulse-heart text-blush-300" />
+              <SwanMark className="h-16 w-auto animate-pulse-heart" />
               <p className="font-display text-xl text-cream-100">
                 Finding your date…
               </p>

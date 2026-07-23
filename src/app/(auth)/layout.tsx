@@ -26,7 +26,7 @@ export default function AuthLayout({
       </div>
 
       <aside className="grain relative hidden overflow-hidden bg-gradient-to-b from-blush-200 via-blush-300 to-blush-400 lg:block">
-        <SwanMark className="absolute -right-24 -top-16 h-96 w-96 text-white/25" />
+        <SwanMark className="absolute -right-20 -top-10 h-96 w-auto opacity-40" />
         <div className="absolute inset-x-0 bottom-0 p-12">
           <Eyebrow className="text-rose-700/80">
             Live video chat speed dating

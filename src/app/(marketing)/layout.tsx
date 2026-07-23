@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BrandLockup, SwanMark } from "@/components/brand";
+import { BrandLockup, SwanMark, Wordmark } from "@/components/brand";
 
 const NAV_LINKS = [
   { href: "/#how-it-works", label: "How it works" },
@@ -52,11 +52,9 @@ export default function MarketingLayout({
         <div className="mx-auto w-full max-w-6xl px-5 py-14">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <div className="flex items-center gap-2">
-                <SwanMark className="h-7 w-7 text-blush-300" />
-                <span className="font-display text-2xl">
-                  Sw<span className="text-blush-300">oo</span>n
-                </span>
+              <div className="flex items-center gap-2.5">
+                <SwanMark className="h-9 w-auto" />
+                <Wordmark className="h-[1.1rem] w-auto" onDark />
               </div>
               <p className="mt-3 max-w-[16rem] text-sm leading-relaxed text-cream-100/60">
                 Live video speed dating for real people looking for real

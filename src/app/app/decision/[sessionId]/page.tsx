@@ -167,7 +167,7 @@ export default function DecisionPage({
 
   return (
     <div className="on-dark grain relative flex min-h-dvh flex-col items-center justify-center bg-ink-990 px-6 text-center text-cream-100">
-      <SwanMark className="absolute left-1/2 top-10 h-10 w-10 -translate-x-1/2 text-blush-300/70" />
+      <SwanMark className="absolute left-1/2 top-10 h-12 w-auto -translate-x-1/2 opacity-80" />
 
       {phase === "loading" && <Spinner className="h-7 w-7 text-blush-300" />}
 

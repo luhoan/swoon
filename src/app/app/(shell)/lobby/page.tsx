@@ -47,7 +47,7 @@ export default async function LobbyPage() {
           href="/app/preflight"
           className="grain group relative mt-8 block overflow-hidden rounded-[--radius-soft] bg-gradient-to-br from-blush-200 via-blush-300 to-blush-400 p-8 shadow-float transition-transform hover:-translate-y-0.5 sm:p-10"
         >
-          <SwanMark className="absolute -right-8 -top-10 h-48 w-48 text-white/30 transition-transform duration-500 group-hover:rotate-6" />
+          <SwanMark className="absolute -right-6 -top-8 h-48 w-auto opacity-50 transition-transform duration-500 group-hover:rotate-6" />
           <p className="max-w-xs font-display text-3xl leading-snug text-charcoal-900">
             Ready for a three-minute date?
           </p>

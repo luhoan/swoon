@@ -46,7 +46,7 @@ export default function VerificationPage() {
 
       <Card className="mt-8 overflow-hidden">
         <div className="grain relative bg-gradient-to-br from-blush-100 to-blush-200 px-6 py-8">
-          <SwanMark className="absolute -right-6 -top-8 h-36 w-36 text-white/40" />
+          <SwanMark className="absolute -right-4 -top-6 h-40 w-auto opacity-50" />
           <p className="font-display text-5xl text-charcoal-900">
             $5
             <span className="ml-2 align-middle text-base text-charcoal-700/70">

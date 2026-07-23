@@ -88,7 +88,7 @@ export default function DatePage({
     <div className="on-dark flex min-h-dvh flex-col bg-ink-990 text-cream-100">
       {/* Top bar: brand, timer, report */}
       <header className="relative z-10 flex items-center justify-between px-5 py-4">
-        <SwanMark className="h-7 w-7 text-blush-300" />
+        <SwanMark className="h-8 w-auto" />
         <div className="absolute left-1/2 top-4 -translate-x-1/2 text-center">
           <p className="text-[0.625rem] font-semibold uppercase tracking-[0.3em] text-cream-100/60">
             Speed date
@@ -143,7 +143,7 @@ export default function DatePage({
           {/* Connection states over the stage */}
           {(state.phase === "loading" || state.phase === "connecting") && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-ink-990/85">
-              <SwanMark className="h-14 w-14 animate-pulse-heart text-blush-300" />
+              <SwanMark className="h-16 w-auto animate-pulse-heart" />
               <p className="font-display text-xl">
                 {state.partner
                   ? `Connecting you with ${state.partner.display_name}…`
@@ -179,7 +179,7 @@ export default function DatePage({
           )}
           {state.phase === "connect_failed" && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-ink-990/90 px-8 text-center">
-              <SwanMark className="h-12 w-12 text-cream-100/30" />
+              <SwanMark className="h-14 w-auto opacity-50" />
               <p className="font-display text-2xl">We couldn&apos;t connect you</p>
               <p className="max-w-sm text-sm leading-relaxed text-cream-100/70">
                 Some networks block direct video. Neither of you did anything
