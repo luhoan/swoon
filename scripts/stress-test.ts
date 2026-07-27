@@ -104,7 +104,7 @@ async function runRound(round: number): Promise<RoundStats> {
   }
 
   // ---- phase 1: everyone joins the queue at once ----------------------
-  let t = Date.now();
+  const t = Date.now();
   const joinResults = await Promise.all(
     sims.map(async (sim) => {
       const started = Date.now();

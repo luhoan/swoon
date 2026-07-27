@@ -3,37 +3,8 @@
  * onboard, queue, share one live WebRTC date with a synchronized timer,
  * both choose Match, land on "It's a Swoon!", and chat in real time.
  */
-import { test, expect, type Page } from "@playwright/test";
-import { join } from "node:path";
-
-const PASSWORD = "e2e-swoon-pass-1!";
-
-async function signupAndOnboard(page: Page, name: string, avatar: string) {
-  const email = `e2e-${name.toLowerCase()}-${Date.now()}-${Math.floor(Math.random() * 1e4)}@test.tryswoon.live`;
-
-  await page.goto("/signup");
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
-  await page.getByLabel("Confirm password").fill(PASSWORD);
-  await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Create account" }).click();
-
-  await page.waitForURL("**/onboarding/profile", { timeout: 30_000 });
-  const fileChooserPromise = page.waitForEvent("filechooser");
-  await page.getByRole("button", { name: "Add profile photo" }).click();
-  (await fileChooserPromise).setFiles(
-    join(process.cwd(), "e2e", ".fixtures", avatar),
-  );
-  await page.getByLabel("First name").fill(name);
-  await page.getByLabel("Date of birth").fill("1998-02-14");
-  await page.getByLabel("City").fill("Testville");
-  await page.getByRole("button", { name: "Continue" }).click();
-
-  await page.waitForURL("**/onboarding/verification", { timeout: 30_000 });
-  await page.getByRole("button", { name: /Verify me/ }).click();
-  await page.waitForURL("**/app/lobby", { timeout: 30_000 });
-  return email;
-}
+import { test, expect } from "@playwright/test";
+import { signupAndOnboard } from "./helpers";
 
 test("two people complete the full Swoon loop", async ({ browser }) => {
   const contextA = await browser.newContext();
