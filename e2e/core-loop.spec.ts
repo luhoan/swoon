@@ -48,6 +48,27 @@ test("two people complete the full Swoon loop", async ({ browser }) => {
       .toBeGreaterThan(0);
   }
 
+  // The date must fit the viewport exactly — no scrolling to see your date.
+  // Regression guard: the video used to fall back to the camera's intrinsic
+  // size and push the page far past the fold.
+  for (const page of [alice, bob]) {
+    const fit = await page.evaluate(() => {
+      const video = document.querySelector("main video") as HTMLVideoElement;
+      const rect = video.getBoundingClientRect();
+      return {
+        pageScrolls:
+          document.documentElement.scrollHeight > window.innerHeight + 1,
+        videoBottom: rect.bottom,
+        viewportHeight: window.innerHeight,
+      };
+    });
+    expect(fit.pageScrolls, "date screen must not scroll").toBe(false);
+    expect(
+      fit.videoBottom,
+      "remote video must stay within the viewport",
+    ).toBeLessThanOrEqual(fit.viewportHeight + 1);
+  }
+
   // Synchronized countdown is visible on both.
   await expect(alice.locator("header")).toContainText(/\d:\d\d/);
   await expect(bob.locator("header")).toContainText(/\d:\d\d/);

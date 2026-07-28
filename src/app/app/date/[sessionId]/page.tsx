@@ -85,9 +85,11 @@ export default function DatePage({
   const urgent = totalSeconds !== null && totalSeconds <= 15;
 
   return (
-    <div className="on-dark flex min-h-dvh flex-col bg-ink-990 text-cream-100">
+    // Locked to the viewport: a date must never scroll, whatever resolution
+    // or orientation the two cameras happen to produce.
+    <div className="on-dark flex h-dvh flex-col overflow-hidden bg-ink-990 text-cream-100">
       {/* Top bar: brand, timer, report */}
-      <header className="relative z-10 flex items-center justify-between px-5 py-4">
+      <header className="relative z-10 flex shrink-0 items-center justify-between px-5 py-4">
         <SwanMark className="h-8 w-auto" />
         <div className="absolute left-1/2 top-4 -translate-x-1/2 text-center">
           <p className="text-[0.625rem] font-semibold uppercase tracking-[0.3em] text-cream-100/60">
@@ -113,13 +115,16 @@ export default function DatePage({
       </header>
 
       {/* Stage */}
-      <main className="relative flex-1 px-4 pb-28 sm:px-6">
+      <main className="relative min-h-0 flex-1 px-4 pb-24 sm:px-6">
         <div className="relative mx-auto h-full max-w-5xl overflow-hidden rounded-[--radius-soft] bg-ink-950">
+          {/* Absolute fill so the element size comes from the stage, never
+              from the camera's intrinsic resolution; contain keeps the whole
+              person in frame instead of cropping them. */}
           <video
             ref={remoteRef}
             autoPlay
             playsInline
-            className="h-full min-h-[60dvh] w-full object-cover"
+            className="absolute inset-0 h-full w-full object-contain"
           />
 
           {/* Remote overlays */}
@@ -206,13 +211,15 @@ export default function DatePage({
 
           {/* Local PiP */}
           {state.localStream && (
-            <div className="absolute bottom-4 right-4 w-28 overflow-hidden rounded-xl border border-cream-100/20 shadow-float sm:w-40">
+            <div className="absolute bottom-4 right-4 w-32 overflow-hidden rounded-xl border border-cream-100/20 shadow-float sm:w-44">
               <video
                 ref={localRef}
                 autoPlay
                 playsInline
                 muted
-                className={`aspect-[3/4] w-full -scale-x-100 object-cover ${
+                // 16:9 matches how most webcams actually frame you, so the
+                // self-view isn't cropped down to a sliver.
+                className={`aspect-video w-full -scale-x-100 object-cover ${
                   state.camOn ? "" : "opacity-0"
                 }`}
               />
