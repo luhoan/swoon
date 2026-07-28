@@ -9,7 +9,9 @@ export default defineConfig({
   // Two-user flows coordinate inside a single test; keep runs serial.
   workers: 1,
   use: {
-    baseURL: "http://localhost:3000",
+    // Dedicated port: port 3000 is often taken by another project, and
+    // reuseExistingServer would happily test the wrong app.
+    baseURL: "http://localhost:3210",
     trace: "retain-on-failure",
     launchOptions: {
       args: [
@@ -20,8 +22,8 @@ export default defineConfig({
     },
   },
   webServer: {
-    command: "pnpm dev",
-    url: "http://localhost:3000",
+    command: "pnpm dev --port 3210",
+    url: "http://localhost:3210",
     reuseExistingServer: true,
     timeout: 60_000,
   },

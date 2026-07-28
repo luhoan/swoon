@@ -69,6 +69,14 @@ async function main() {
   const logo = join(root, "logo.png");
   const title = join(root, "title.png");
 
+  // Hero product shot: trim the transparent margin (keeping the soft drop
+  // shadow) so layout controls the spacing, then compress.
+  await sharp(join(root, "hero-phones.png"))
+    .trim({ threshold: 1 })
+    .resize({ width: 1100, withoutEnlargement: true })
+    .png({ quality: 90, compressionLevel: 9 })
+    .toFile(join(out, "hero-phones.png"));
+
   await sharp(logo).resize(64, 64).png().toFile(join(out, "favicon.png"));
   await sharp(logo).resize(512, 512).png().toFile(join(out, "app-icon.png"));
 

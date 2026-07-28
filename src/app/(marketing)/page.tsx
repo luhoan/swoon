@@ -1,105 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Eyebrow, SwanMark } from "@/components/brand";
-
-/* ------------------------------------------------------------------ */
-/* Hero phone mockups — hand-built UI vignettes, no stock imagery.     */
-/* ------------------------------------------------------------------ */
-
-function VideoTile({
-  name,
-  age,
-  from,
-  to,
-}: {
-  name: string;
-  age: number;
-  from: string;
-  to: string;
-}) {
-  return (
-    <div
-      className={`relative flex-1 overflow-hidden rounded-xl bg-gradient-to-br ${from} ${to}`}
-    >
-      {/* soft portrait glow standing in for a live camera feed */}
-      <div className="absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/25 blur-2xl" />
-      <div className="absolute bottom-2 left-2 flex items-center gap-1.5 rounded-full bg-ink-990/70 px-2.5 py-1 backdrop-blur">
-        <span className="h-1.5 w-1.5 rounded-full bg-success-600" />
-        <span className="text-[0.625rem] font-medium text-cream-100">
-          {name}, {age}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function DatePhone() {
-  return (
-    <div className="w-[16.5rem] rounded-[2.4rem] border-[6px] border-ink-950 bg-ink-990 p-2.5 shadow-float">
-      <div className="flex h-[33rem] flex-col rounded-[1.9rem] bg-ink-990 p-3">
-        <div className="flex items-center justify-between px-1 text-cream-100/70">
-          <span className="text-[0.625rem]">9:41</span>
-          <div className="text-center">
-            <p className="text-[0.5rem] font-semibold uppercase tracking-[0.25em] text-cream-100/50">
-              Speed date
-            </p>
-            <p className="font-display text-lg leading-none text-cream-100">
-              02:30
-            </p>
-          </div>
-          <span className="text-[0.5rem] uppercase tracking-wider text-cream-100/50">
-            Report
-          </span>
-        </div>
-        <div className="mt-2.5 flex flex-1 flex-col gap-2">
-          <VideoTile name="Emma" age={24} from="from-blush-300" to="to-rose-600" />
-          <VideoTile name="Alex" age={25} from="from-bluebell-500" to="to-ink-950" />
-        </div>
-        <div className="mt-3 flex items-center justify-center gap-4 pb-1">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-[0.5rem] text-cream-100/70">
-            Skip
-          </span>
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-600 shadow-float">
-            <SwanMark className="h-6 w-auto brightness-0 invert" />
-          </span>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-[0.5rem] text-cream-100/70">
-            Next
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MatchPhone() {
-  return (
-    <div className="w-[13.5rem] rounded-[2.2rem] border-[6px] border-ink-950 bg-ink-990 p-2 shadow-float">
-      <div className="flex h-[27rem] flex-col items-center rounded-[1.7rem] bg-ink-990 px-4 pb-5 pt-8 text-center">
-        <p className="text-[0.6rem] uppercase tracking-[0.3em] text-cream-100/60">
-          It&apos;s a
-        </p>
-        <p className="font-script text-4xl text-blush-300">Match!</p>
-        <div className="mt-5 flex items-center">
-          <span className="h-16 w-16 rounded-full border-2 border-blush-300 bg-gradient-to-br from-blush-300 to-rose-600" />
-          <span className="z-10 -mx-2 flex h-8 w-8 items-center justify-center rounded-full bg-ink-990">
-            <span className="text-sm text-rose-500">♥</span>
-          </span>
-          <span className="h-16 w-16 rounded-full border-2 border-blush-300 bg-gradient-to-br from-bluebell-500 to-ink-950" />
-        </div>
-        <p className="mt-5 text-[0.65rem] leading-relaxed text-cream-100/70">
-          You and Alex liked
-          <br />
-          each other!
-        </p>
-        <span className="mt-5 w-full rounded-full bg-blush-300 py-2.5 text-xs font-medium text-charcoal-900">
-          Send message
-        </span>
-        <span className="mt-2.5 text-[0.65rem] text-cream-100/60">
-          Keep dating
-        </span>
-      </div>
-    </div>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 
@@ -256,14 +157,17 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Phone pair */}
-          <div className="relative mx-auto flex items-center justify-center">
-            <div className="translate-x-8 rotate-[5deg]">
-              <MatchPhone />
-            </div>
-            <div className="relative z-10 -translate-x-6 rotate-[-4deg] animate-drift">
-              <DatePhone />
-            </div>
+          {/* Product shot: a live date and the match it turns into */}
+          <div className="relative mx-auto w-full max-w-[22rem] sm:max-w-[26rem] lg:max-w-none">
+            <Image
+              src="/brand/hero-phones.png"
+              alt="Two phones side by side: a live three-minute Swoon video date with Emma and Alex, and the It's a Match screen that follows."
+              width={887}
+              height={1121}
+              sizes="(max-width: 640px) 88vw, (max-width: 1024px) 26rem, 44vw"
+              priority
+              className="h-auto w-full animate-drift"
+            />
           </div>
         </div>
       </section>
