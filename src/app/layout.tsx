@@ -5,7 +5,11 @@ import "./globals.css";
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
-  axes: ["SOFT", "opsz"],
+  // Real italics matter: without them the browser synthesizes a slant and
+  // the serif letterforms come out warped. WONK is exposed so we can turn
+  // Fraunces's swashy alternates off (see globals.css).
+  style: ["normal", "italic"],
+  axes: ["SOFT", "WONK", "opsz"],
 });
 
 const pinyon = Pinyon_Script({

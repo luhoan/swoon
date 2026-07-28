@@ -222,10 +222,12 @@ export default function LandingPage() {
               Live video chat speed dating
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-rose-500" />
             </p>
-            <h1 className="mt-6 font-display text-5xl leading-[1.06] text-charcoal-900 sm:text-6xl">
+            <h1 className="mt-6 font-display text-[2.05rem] leading-[1.08] text-charcoal-900 sm:text-5xl lg:text-[2.9rem] xl:text-[3.4rem]">
               Skip the Swipe.
               <br />
-              <em className="text-rose-600">Meet before you match.</em>
+              <em className="whitespace-nowrap text-rose-600">
+                Meet before you match.
+              </em>
             </h1>
             <p className="mt-6 text-lg font-medium text-charcoal-900">
               The dating app built around face-to-face chemistry.

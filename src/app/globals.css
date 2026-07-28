@@ -66,6 +66,15 @@
   color-scheme: light;
 }
 
+/* Fraunces ships "wonky" swash alternates on by default (curled f, b, y).
+   They read as unsteady at display sizes, so keep letterforms conventional
+   and lean on the soft-serif terminals instead. */
+.font-display,
+.font-display em,
+.font-display i {
+  font-variation-settings: "WONK" 0, "SOFT" 30;
+}
+
 body {
   background-color: var(--color-cream-50);
   color: var(--color-charcoal-900);
