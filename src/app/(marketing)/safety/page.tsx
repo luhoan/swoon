@@ -87,8 +87,8 @@ export default function SafetyPage() {
 
         <p className="border-t border-charcoal-900/10 pt-5 text-sm text-charcoal-700/60">
           Questions or urgent safety concerns:{" "}
-          <a href="mailto:safety@tryswoon.live" className="underline">
-            safety@tryswoon.live
+          <a href="mailto:info@tryswoon.live" className="underline">
+            info@tryswoon.live
           </a>
         </p>
       </div>

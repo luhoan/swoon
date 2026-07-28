@@ -89,8 +89,8 @@ export default function MarketingLayout({
               <ul className="mt-4 space-y-2.5 text-sm text-cream-100/80">
                 <li><span className="cursor-default text-cream-100/40">About us — soon</span></li>
                 <li>
-                  <a href="mailto:hello@tryswoon.live" className="hover:text-blush-300">
-                    hello@tryswoon.live
+                  <a href="mailto:info@tryswoon.live" className="hover:text-blush-300">
+                    info@tryswoon.live
                   </a>
                 </li>
               </ul>

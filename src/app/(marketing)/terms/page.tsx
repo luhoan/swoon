@@ -67,8 +67,8 @@ export default function TermsPage() {
           <p className="mt-2">
             You can delete your account at any time in Settings. Questions
             about these terms:{" "}
-            <a href="mailto:hello@tryswoon.live" className="underline">
-              hello@tryswoon.live
+            <a href="mailto:info@tryswoon.live" className="underline">
+              info@tryswoon.live
             </a>
             .
           </p>

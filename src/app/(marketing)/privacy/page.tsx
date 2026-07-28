@@ -75,8 +75,8 @@ export default function PrivacyPage() {
             Deleting your account in Settings removes your profile, photo,
             queue entries, matches, and messages. Records of moderation
             actions may be retained where required for safety. Questions:{" "}
-            <a href="mailto:privacy@tryswoon.live" className="underline">
-              privacy@tryswoon.live
+            <a href="mailto:info@tryswoon.live" className="underline">
+              info@tryswoon.live
             </a>
             .
           </p>

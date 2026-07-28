@@ -36,8 +36,8 @@ export default async function LobbyPage() {
           <p className="mt-1.5">
             Dating is paused while our team looks into a report. Your matches
             and chats still work. If you think this is a mistake, contact{" "}
-            <a className="underline" href="mailto:safety@tryswoon.live">
-              safety@tryswoon.live
+            <a className="underline" href="mailto:info@tryswoon.live">
+              info@tryswoon.live
             </a>
             .
           </p>
