@@ -225,7 +225,7 @@ export default function LandingPage() {
             <h1 className="mt-6 font-display text-5xl leading-[1.06] text-charcoal-900 sm:text-6xl">
               Skip the Swipe.
               <br />
-              <em className="text-rose-600">Swoon in Real Life.</em>
+              <em className="text-rose-600">Meet before you match.</em>
             </h1>
             <p className="mt-6 text-lg font-medium text-charcoal-900">
               The dating app built around face-to-face chemistry.
