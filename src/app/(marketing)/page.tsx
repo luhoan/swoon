@@ -123,7 +123,10 @@ export default function LandingPage() {
               Live video chat speed dating
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-rose-500" />
             </p>
-            <h1 className="mt-6 font-display text-[2.05rem] leading-[1.08] text-charcoal-900 sm:text-5xl lg:text-[2.9rem] xl:text-[3.4rem]">
+            {/* Fluid below sm: the tagline is held to one line, so the type
+                has to shrink with the viewport or it gets clipped on small
+                phones. 8.5vw keeps it inside the padding down to 320px. */}
+            <h1 className="mt-6 font-display text-[clamp(1.35rem,8.5vw,2.05rem)] leading-[1.08] text-charcoal-900 sm:text-5xl lg:text-[2.9rem] xl:text-[3.4rem]">
               Skip the Swipe.
               <br />
               <em className="whitespace-nowrap text-rose-600">
