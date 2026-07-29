@@ -9,6 +9,10 @@ const VIEWPORTS = [
   { name: "short laptop", width: 1366, height: 620 },
   { name: "laptop", width: 1440, height: 900 },
   { name: "phone", width: 390, height: 844 },
+  // Rotating mid-date is normal; 390px of height with a header and controls
+  // is the tightest the stage ever gets.
+  { name: "phone landscape", width: 844, height: 390 },
+  { name: "small phone", width: 320, height: 568 },
 ];
 
 test("date screen fits the viewport at every size", async ({ browser }) => {

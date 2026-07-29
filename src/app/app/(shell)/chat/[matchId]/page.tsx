@@ -265,7 +265,9 @@ export default function ChatPage({
           maxLength={2000}
           placeholder={`Message ${match?.partner.display_name ?? ""}…`}
           aria-label="Message"
-          className="flex-1 rounded-full border border-charcoal-900/15 bg-white/80 px-5 py-3 text-sm outline-none focus:border-rose-500"
+          // min-w-0: an input's intrinsic minimum is ~20 characters wide,
+          // which flex-1 cannot shrink past — it pushes Send off small screens.
+          className="w-full min-w-0 flex-1 rounded-full border border-charcoal-900/15 bg-white/80 px-5 py-3 text-sm outline-none focus:border-rose-500"
         />
         <Button type="submit" disabled={!draft.trim()}>
           Send

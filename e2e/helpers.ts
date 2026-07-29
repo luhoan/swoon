@@ -7,14 +7,34 @@ export const PASSWORD = "e2e-swoon-pass-1!";
 export async function signupAndOnboard(page: Page, name: string, avatar: string) {
   const email = `e2e-${name.toLowerCase()}-${Date.now()}-${Math.floor(Math.random() * 1e4)}@test.tryswoon.live`;
 
-  await page.goto("/signup");
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
-  await page.getByLabel("Confirm password").fill(PASSWORD);
-  await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Create account" }).click();
-
-  await page.waitForURL("**/onboarding/profile", { timeout: 30_000 });
+  // A suite run signs up far more accounts from one address than a person
+  // would, so the auth provider occasionally throttles us. Retry those —
+  // but only those, so real signup breakage still fails the test.
+  let signedUp = false;
+  for (let attempt = 0; attempt < 3 && !signedUp; attempt++) {
+    await page.goto("/signup");
+    await page.getByLabel("Email").fill(email);
+    await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
+    await page.getByLabel("Confirm password").fill(PASSWORD);
+    await page.getByRole("checkbox").check();
+    await page.getByRole("button", { name: "Create account" }).click();
+    try {
+      await page.waitForURL("**/onboarding/profile", { timeout: 20_000 });
+      signedUp = true;
+    } catch {
+      const alert = page.getByRole("alert");
+      const message = (await alert.count())
+        ? ((await alert.first().textContent()) ?? "")
+        : "";
+      const throttled = /busy|too many/i.test(message);
+      if (!throttled || attempt === 2) {
+        throw new Error(
+          `signup did not reach onboarding (attempt ${attempt + 1}): ${message || "no error shown"}`,
+        );
+      }
+      await page.waitForTimeout(4000 * (attempt + 1));
+    }
+  }
   const fileChooserPromise = page.waitForEvent("filechooser");
   await page.getByRole("button", { name: "Add profile photo" }).click();
   (await fileChooserPromise).setFiles(

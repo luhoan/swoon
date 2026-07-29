@@ -13,8 +13,10 @@ export default async function globalSetup() {
 
   const client = new Client({ connectionString: process.env.SUPABASE_DB_URL });
   await client.connect();
+  // 30s, not 15: long enough that layout/media assertions can run before the
+  // date ends on its own, short enough to keep the suite quick.
   await client.query(
-    "update app_config set date_duration_seconds = 15, decision_window_seconds = 60",
+    "update app_config set date_duration_seconds = 30, decision_window_seconds = 60",
   );
   // A full suite run creates far more accounts from one IP than any real
   // person would, so it trips our own signup limiter. Reset that bucket for

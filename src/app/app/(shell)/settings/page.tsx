@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { Button, Card, TextField, Spinner } from "@/components/ui";
+import { SignOutButton } from "@/components/sign-out";
 import { Eyebrow } from "@/components/brand";
 import type { MyProfile } from "@/lib/domain/types";
 
@@ -207,6 +208,15 @@ export default function SettingsPage() {
             {busy === "password" ? <Spinner /> : "Update password"}
           </Button>
         </div>
+      </Card>
+
+      {/* The header hides Log out on phones, so it lives here too. */}
+      <Card className="mt-6 p-6 sm:hidden">
+        <h2 className="font-display text-xl text-charcoal-900">Session</h2>
+        <p className="mt-2 text-sm text-charcoal-700/80">
+          Signed in as {profile.display_name}.
+        </p>
+        <SignOutButton className="mt-4 inline-flex min-h-11 items-center rounded-full border border-charcoal-900/25 px-5 text-sm font-medium text-charcoal-900 transition-colors hover:border-rose-600 hover:text-rose-700" />
       </Card>
 
       <Card className="mt-6 border-danger-600/25 p-6">

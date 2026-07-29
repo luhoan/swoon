@@ -75,11 +75,18 @@ export function BrandLockup({
   return (
     <Link
       href={href}
-      className={`group inline-flex min-h-11 items-center gap-2 ${className}`}
+      // shrink-0: as a flex child the lockup would otherwise be crushed to a
+      // few pixels when the nav beside it runs out of room.
+      className={`group inline-flex min-h-11 shrink-0 items-center gap-2 ${className}`}
       aria-label="Swoon"
     >
       <SwanMark className="h-9 w-auto transition-transform group-hover:-rotate-6" />
-      <Wordmark className="h-[1.15rem] w-auto" onDark={dark} />
+      {/* Below 360px the mark alone carries the brand; there isn't room for
+          both the wordmark and the navigation. */}
+      <Wordmark
+        className="h-[1.15rem] w-auto max-[359px]:hidden"
+        onDark={dark}
+      />
     </Link>
   );
 }

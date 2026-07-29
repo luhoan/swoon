@@ -30,6 +30,9 @@ async function auditScreen(page: Page, label: string) {
       const style = getComputedStyle(el);
       if (r.width === 0 || r.height === 0) return;
       if (style.visibility === "hidden" || style.display === "none") return;
+      // Screen-reader-only helpers (sr-only) are 1x1 and clipped; the real
+      // affordance is the visible control that proxies to them.
+      if (r.width <= 2 && r.height <= 2) return;
 
       if (r.right > vw + 1 || r.left < -1) {
         clipped.push({
@@ -185,14 +188,26 @@ test("the whole product works on a phone", async ({ browser }) => {
   await auditScreen(alice, "chat");
 
   // ---- Remaining app screens ---------------------------------------------
-  for (const [path, label] of [
+  const APP_SCREENS = [
     ["/app/matches", "matches"],
     ["/app/settings", "settings"],
     ["/app/lobby", "lobby with matches"],
-  ] as const) {
+    [`/app/chat/${alice.url().split("/chat/")[1] ?? ""}`, "chat"],
+  ] as const;
+
+  for (const [path, label] of APP_SCREENS) {
     await alice.goto(path);
     await alice.waitForLoadState("networkidle");
     await auditScreen(alice, label);
+  }
+
+  // Re-audit the signed-in screens on the narrowest phone people still use,
+  // where the public pages were previously clipping.
+  await alice.setViewportSize({ width: 320, height: 568 });
+  for (const [path, label] of APP_SCREENS) {
+    await alice.goto(path);
+    await alice.waitForLoadState("networkidle");
+    await auditScreen(alice, `${label} @320`);
   }
 
   await contextA.close();

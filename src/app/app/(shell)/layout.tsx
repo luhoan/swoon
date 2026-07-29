@@ -19,7 +19,7 @@ export default async function ShellLayout({
       <header className="sticky top-0 z-40 border-b border-charcoal-900/8 bg-cream-50/85 backdrop-blur">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5">
           <BrandLockup href="/app/lobby" />
-          <nav className="flex items-center gap-1 sm:gap-2" aria-label="Main">
+          <nav className="flex items-center gap-0.5 sm:gap-2" aria-label="Main">
             {[
               { href: "/app/lobby", label: "Lobby" },
               { href: "/app/matches", label: "Matches" },
@@ -28,7 +28,7 @@ export default async function ShellLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex min-h-11 items-center rounded-full px-3.5 text-sm font-medium text-charcoal-800 transition-colors hover:bg-blush-100 hover:text-charcoal-900"
+                className="flex min-h-11 items-center rounded-full px-2.5 text-[0.8125rem] font-medium text-charcoal-800 sm:px-3.5 sm:text-sm transition-colors hover:bg-blush-100 hover:text-charcoal-900"
               >
                 {item.label}
               </Link>
@@ -36,7 +36,7 @@ export default async function ShellLayout({
             {(profile?.role === "moderator" || profile?.role === "admin") && (
               <Link
                 href="/admin"
-                className="flex min-h-11 items-center rounded-full px-3.5 text-sm font-medium text-bluebell-700 transition-colors hover:bg-bluebell-500/10"
+                className="flex min-h-11 items-center rounded-full px-2.5 text-[0.8125rem] font-medium text-bluebell-700 sm:px-3.5 sm:text-sm transition-colors hover:bg-bluebell-500/10"
               >
                 Moderation
               </Link>
