@@ -23,22 +23,23 @@ export default function MarketingLayout({
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-sm text-charcoal-800 transition-colors hover:text-rose-700"
+                className="flex min-h-11 items-center text-sm text-charcoal-800 transition-colors hover:text-rose-700"
               >
                 {l.label}
               </Link>
             ))}
           </nav>
           <div className="flex items-center gap-2">
+            {/* min-h-11 keeps these comfortably tappable on a phone. */}
             <Link
               href="/login"
-              className="rounded-full px-4 py-2 text-sm font-medium text-charcoal-800 transition-colors hover:bg-blush-100"
+              className="flex min-h-11 items-center rounded-full px-4 text-sm font-medium text-charcoal-800 transition-colors hover:bg-blush-100"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="rounded-full bg-rose-600 px-5 py-2.5 text-sm font-medium text-cream-50 shadow-lift transition-all hover:bg-rose-700"
+              className="flex min-h-11 items-center rounded-full bg-rose-600 px-5 text-sm font-medium text-cream-50 shadow-lift transition-all hover:bg-rose-700"
             >
               Start dating
             </Link>
@@ -65,31 +66,31 @@ export default function MarketingLayout({
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream-100/50">
                 Product
               </p>
-              <ul className="mt-4 space-y-2.5 text-sm text-cream-100/80">
-                <li><Link href="/#how-it-works" className="hover:text-blush-300">How it works</Link></li>
-                <li><Link href="/#features" className="hover:text-blush-300">Features</Link></li>
-                <li><Link href="/#faq" className="hover:text-blush-300">FAQ</Link></li>
-                <li><Link href="/signup" className="hover:text-blush-300">Create an account</Link></li>
+              <ul className="mt-3 space-y-1 text-sm text-cream-100/80">
+                <li><Link href="/#how-it-works" className="inline-flex min-h-10 items-center hover:text-blush-300">How it works</Link></li>
+                <li><Link href="/#features" className="inline-flex min-h-10 items-center hover:text-blush-300">Features</Link></li>
+                <li><Link href="/#faq" className="inline-flex min-h-10 items-center hover:text-blush-300">FAQ</Link></li>
+                <li><Link href="/signup" className="inline-flex min-h-10 items-center hover:text-blush-300">Create an account</Link></li>
               </ul>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream-100/50">
                 Safety
               </p>
-              <ul className="mt-4 space-y-2.5 text-sm text-cream-100/80">
-                <li><Link href="/safety" className="hover:text-blush-300">Safety &amp; guidelines</Link></li>
-                <li><Link href="/privacy" className="hover:text-blush-300">Privacy policy</Link></li>
-                <li><Link href="/terms" className="hover:text-blush-300">Terms of service</Link></li>
+              <ul className="mt-3 space-y-1 text-sm text-cream-100/80">
+                <li><Link href="/safety" className="inline-flex min-h-10 items-center hover:text-blush-300">Safety &amp; guidelines</Link></li>
+                <li><Link href="/privacy" className="inline-flex min-h-10 items-center hover:text-blush-300">Privacy policy</Link></li>
+                <li><Link href="/terms" className="inline-flex min-h-10 items-center hover:text-blush-300">Terms of service</Link></li>
               </ul>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream-100/50">
                 Company
               </p>
-              <ul className="mt-4 space-y-2.5 text-sm text-cream-100/80">
+              <ul className="mt-3 space-y-1 text-sm text-cream-100/80">
                 <li><span className="cursor-default text-cream-100/40">About us — soon</span></li>
                 <li>
-                  <a href="mailto:info@tryswoon.live" className="hover:text-blush-300">
+                  <a href="mailto:info@tryswoon.live" className="inline-flex min-h-10 items-center hover:text-blush-300">
                     info@tryswoon.live
                   </a>
                 </li>

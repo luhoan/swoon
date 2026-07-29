@@ -49,17 +49,9 @@ export default function ChatPage({
       }
       setMatch(found);
 
-      const { data: history } = await supabase
-        .from("messages")
-        .select("id, match_id, sender_id, body, created_at")
-        .eq("match_id", matchId)
-        .order("created_at", { ascending: true })
-        .limit(200);
-      if (cancelled) return;
-      setMessages((history as ChatMessage[]) ?? []);
-      setLoading(false);
-
-      // Live inserts — RLS gates the WAL feed per subscriber.
+      // Subscribe BEFORE loading history. The other order loses any message
+      // sent during the fetch: it is too late for the history query and too
+      // early for the subscription, so it never arrives at all.
       channel = supabase
         .channel(`chat:${matchId}`)
         .on(
@@ -77,7 +69,37 @@ export default function ChatPage({
             );
           },
         );
-      channel.subscribe();
+      await new Promise<void>((resolve) => {
+        channel!.subscribe((status) => {
+          if (
+            status === "SUBSCRIBED" ||
+            status === "CHANNEL_ERROR" ||
+            status === "TIMED_OUT"
+          ) {
+            resolve();
+          }
+        });
+      });
+      if (cancelled) return;
+
+      const { data: history } = await supabase
+        .from("messages")
+        .select("id, match_id, sender_id, body, created_at")
+        .eq("match_id", matchId)
+        .order("created_at", { ascending: true })
+        .limit(200);
+      if (cancelled) return;
+      // Merge rather than replace: live messages may already have landed
+      // while the history request was in flight.
+      setMessages((prev) => {
+        const byId = new Map<string, ChatMessage>();
+        for (const m of (history as ChatMessage[]) ?? []) byId.set(m.id, m);
+        for (const m of prev) byId.set(m.id, m);
+        return [...byId.values()].sort((a, b) =>
+          a.created_at.localeCompare(b.created_at),
+        );
+      });
+      setLoading(false);
     }
 
     void load();

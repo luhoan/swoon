@@ -72,7 +72,7 @@ export default async function LobbyPage() {
           {matches.length > 0 && (
             <Link
               href="/app/matches"
-              className="text-sm font-medium text-rose-700 underline-offset-2 hover:underline"
+              className="inline-flex min-h-10 items-center text-sm font-medium text-rose-700 underline-offset-2 hover:underline"
             >
               See all
             </Link>

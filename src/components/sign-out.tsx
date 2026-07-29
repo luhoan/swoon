@@ -12,7 +12,7 @@ export function SignOutButton() {
         router.replace("/");
         router.refresh();
       }}
-      className="ml-1 rounded-full px-3.5 py-2 text-sm text-charcoal-700/70 transition-colors hover:bg-blush-100 hover:text-charcoal-900"
+      className="ml-1 flex min-h-11 items-center rounded-full px-3.5 text-sm text-charcoal-700/70 transition-colors hover:bg-blush-100 hover:text-charcoal-900"
     >
       Log out
     </button>

@@ -28,7 +28,7 @@ export default async function ShellLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-charcoal-800 transition-colors hover:bg-blush-100 hover:text-charcoal-900"
+                className="flex min-h-11 items-center rounded-full px-3.5 text-sm font-medium text-charcoal-800 transition-colors hover:bg-blush-100 hover:text-charcoal-900"
               >
                 {item.label}
               </Link>
@@ -36,7 +36,7 @@ export default async function ShellLayout({
             {(profile?.role === "moderator" || profile?.role === "admin") && (
               <Link
                 href="/admin"
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-bluebell-700 transition-colors hover:bg-bluebell-500/10"
+                className="flex min-h-11 items-center rounded-full px-3.5 text-sm font-medium text-bluebell-700 transition-colors hover:bg-bluebell-500/10"
               >
                 Moderation
               </Link>

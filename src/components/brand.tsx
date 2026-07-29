@@ -75,7 +75,7 @@ export function BrandLockup({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-2 ${className}`}
+      className={`group inline-flex min-h-11 items-center gap-2 ${className}`}
       aria-label="Swoon"
     >
       <SwanMark className="h-9 w-auto transition-transform group-hover:-rotate-6" />

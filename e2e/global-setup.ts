@@ -16,6 +16,12 @@ export default async function globalSetup() {
   await client.query(
     "update app_config set date_duration_seconds = 15, decision_window_seconds = 60",
   );
+  // A full suite run creates far more accounts from one IP than any real
+  // person would, so it trips our own signup limiter. Reset that bucket for
+  // the local runner only — production limits are untouched.
+  await client.query(
+    "delete from rate_limits where bucket_key like 'signup:ip:%'",
+  );
   await client.end();
 
   const dir = join(process.cwd(), "e2e", ".fixtures");
