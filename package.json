@@ -20,6 +20,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "db:push": "tsx scripts/db-push.ts",
+    "reviewer:setup": "tsx scripts/setup-appeal-reviewer.ts",
     "stress": "tsx scripts/stress-test.ts",
     "db:seed": "tsx scripts/db-seed.ts"
   },
