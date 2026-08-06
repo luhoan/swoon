@@ -4,6 +4,11 @@ import { supabaseAdmin } from "@/lib/supabase/server";
 import { BrandLockup, Eyebrow } from "@/components/brand";
 import { REPORT_CATEGORIES } from "@/lib/domain/types";
 import { actOnReport } from "./actions";
+import { AppealReviewForm } from "./moderation-forms";
+import {
+  RestrictedAccounts,
+  type RestrictedProfile,
+} from "./restricted-accounts";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +27,15 @@ interface ProfileLite {
   user_id: string;
   display_name: string | null;
   account_status: string;
+  updated_at: string;
+}
+
+interface AccountAppealRow {
+  id: string;
+  user_id: string;
+  restriction_status: "suspended" | "banned";
+  statement: string;
+  created_at: string;
 }
 
 interface AuditRow {
@@ -60,25 +74,49 @@ export default async function AdminPage() {
   const { role } = await requireModerator();
   const admin = supabaseAdmin();
 
-  const { data: reportsData } = await admin
-    .from("reports")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(100);
+  const [reportsResult, appealsResult, restrictedResult] = await Promise.all([
+    admin
+      .from("reports")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(100),
+    admin
+      .from("account_appeals")
+      .select("id, user_id, restriction_status, statement, created_at")
+      .eq("status", "open")
+      .order("created_at", { ascending: true })
+      .limit(100),
+    admin
+      .from("profiles")
+      .select("user_id, display_name, account_status, updated_at")
+      .in("account_status", ["suspended", "banned"])
+      .order("updated_at", { ascending: false })
+      .limit(100),
+  ]);
+
+  const reportsData = reportsResult.data;
   const reports = (reportsData ?? []) as ReportRow[];
+  const appeals = (appealsResult.data ?? []) as AccountAppealRow[];
+  const restrictedProfiles = (restrictedResult.data ?? []) as RestrictedProfile[];
 
   const userIds = [
-    ...new Set(reports.flatMap((r) => [r.reporter_id, r.reported_id])),
+    ...new Set([
+      ...reports.flatMap((r) => [r.reporter_id, r.reported_id]),
+      ...appeals.map((appeal) => appeal.user_id),
+    ]),
   ];
   const { data: profilesData } = userIds.length
     ? await admin
         .from("profiles")
-        .select("user_id, display_name, account_status")
+        .select("user_id, display_name, account_status, updated_at")
         .in("user_id", userIds)
     : { data: [] };
   const profiles = new Map(
     ((profilesData ?? []) as ProfileLite[]).map((p) => [p.user_id, p]),
   );
+  for (const profile of restrictedProfiles) {
+    profiles.set(profile.user_id, profile);
+  }
 
   const { data: auditData } = await admin
     .from("audit_events")
@@ -118,7 +156,65 @@ export default async function AdminPage() {
           {open.length} open · every action lands in the immutable audit log.
         </p>
 
-        <section className="mt-8 space-y-4">
+        <section
+          aria-labelledby="appeals-heading"
+          className="mt-8 space-y-4"
+        >
+          <div>
+            <h2
+              id="appeals-heading"
+              className="font-display text-2xl text-charcoal-900"
+            >
+              Appeals
+            </h2>
+            <p className="mt-1 text-sm text-charcoal-700/65">
+              Oldest first. The member never sees your internal note.
+            </p>
+          </div>
+          {appeals.length === 0 && (
+            <p className="rounded-[--radius-soft] border border-dashed border-charcoal-900/15 p-8 text-center text-sm text-charcoal-700/60">
+              No appeals are waiting for review.
+            </p>
+          )}
+          {appeals.map((appeal) => {
+            const member = profiles.get(appeal.user_id);
+            return (
+              <article
+                key={appeal.id}
+                className="rounded-[--radius-soft] border border-bluebell-500/20 bg-white/75 p-5 shadow-lift"
+              >
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <StatusBadge status={member?.account_status ?? "?"} />
+                  <strong className="text-sm text-charcoal-900">
+                    {member?.display_name ?? "Unknown member"}
+                  </strong>
+                  <span className="text-xs text-charcoal-700/50">
+                    submitted {new Date(appeal.created_at).toLocaleString()}
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-charcoal-700/60">
+                  Restriction at submission: {appeal.restriction_status}
+                </p>
+                <blockquote className="mt-3 border-l-2 border-bluebell-500/35 pl-3 text-sm leading-relaxed text-charcoal-800">
+                  {appeal.statement}
+                </blockquote>
+                <AppealReviewForm appealId={appeal.id} />
+              </article>
+            );
+          })}
+        </section>
+
+        <RestrictedAccounts profiles={restrictedProfiles} />
+
+        <section className="mt-12 space-y-4">
+          <div>
+            <h2 className="font-display text-2xl text-charcoal-900">
+              Open reports
+            </h2>
+            <p className="mt-1 text-sm text-charcoal-700/65">
+              Review member reports and clear automatic quarantines here.
+            </p>
+          </div>
           {open.length === 0 && (
             <p className="rounded-[--radius-soft] border border-dashed border-charcoal-900/15 p-8 text-center text-sm text-charcoal-700/60">
               No open reports. Quiet skies.
@@ -175,7 +271,9 @@ export default async function AdminPage() {
                       ["quarantine", "Quarantine"],
                       ["suspend", "Suspend"],
                       ["ban", "Ban"],
-                      ["reinstate", "Reinstate"],
+                      ...(reported?.account_status === "quarantined"
+                        ? [["reinstate", "Clear quarantine"] as const]
+                        : []),
                     ] as const
                   ).map(([verb, label]) => (
                     <button
