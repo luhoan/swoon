@@ -32,6 +32,12 @@ Promote an account, then visit `/admin`:
 update profiles set role = 'admin' where user_id = '<uuid>';
 ```
 
+The dashboard handles member reports, account appeals, and direct restoration
+of suspended or banned accounts after the original report has closed.
+Restricted members are routed to `/appeal`, where they can submit a private
+statement for human review. Apply migrations with `pnpm db:push` before
+deploying UI changes so the appeal RPCs and review table exist first.
+
 ## Commands
 
 | Command | What it does |
