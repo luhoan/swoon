@@ -16,7 +16,9 @@ const configuredEnv = {
 
 describe("appeal review email notification", () => {
   it("sends an authorized reviewer a privacy-minimized, idempotent message", async () => {
-    const fetcher = vi.fn(async () =>
+    const fetcher = vi.fn<
+      (url: string, init: RequestInit) => Promise<Response>
+    >(async () =>
       new Response(JSON.stringify({ id: "email_123" }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -102,7 +104,9 @@ describe("appeal review email notification", () => {
   });
 
   it("returns a sanitized failure when Resend rejects delivery", async () => {
-    const fetcher = vi.fn(async () =>
+    const fetcher = vi.fn<
+      (url: string, init: RequestInit) => Promise<Response>
+    >(async () =>
       new Response("provider response containing sensitive diagnostics", {
         status: 500,
       }),
