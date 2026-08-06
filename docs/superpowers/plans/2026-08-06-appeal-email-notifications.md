@@ -254,4 +254,3 @@ Restore only generated `tsconfig.tsbuildinfo`, leave `.vscode/` untouched, run `
 - [ ] **Step 5: Merge and publish**
 
 Merge the feature branch into `main`, push `main` to `origin`, and verify the remote SHA matches local `HEAD`.
-
