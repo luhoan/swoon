@@ -45,7 +45,8 @@ export async function middleware(request: NextRequest) {
   const needsAuth =
     path.startsWith("/app") ||
     path.startsWith("/onboarding") ||
-    path.startsWith("/admin");
+    path.startsWith("/admin") ||
+    path === "/appeal";
   const isAuthPage = path === "/login" || path === "/signup";
 
   if (needsAuth && !user) {

@@ -97,3 +97,13 @@ export interface MyProfile {
   verification_status: "none" | "demo_bypass" | "verified";
   onboarding_complete: boolean;
 }
+
+/** Member-safe appeal projection returned by get_my_account_appeals(). */
+export interface AppealSummary {
+  id: string;
+  restriction_status: "suspended" | "banned";
+  statement: string;
+  status: "open" | "restored" | "upheld";
+  created_at: string;
+  reviewed_at: string | null;
+}

@@ -26,6 +26,12 @@ export default async function AppLayout({
   if (!profile?.onboarding_complete) redirect("/onboarding/profile");
   if (profile.verification_status === "none")
     redirect("/onboarding/verification");
+  if (
+    profile.account_status === "suspended" ||
+    profile.account_status === "banned"
+  ) {
+    redirect("/appeal");
+  }
 
   return <>{children}</>;
 }
