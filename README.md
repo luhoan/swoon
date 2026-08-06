@@ -38,6 +38,35 @@ Restricted members are routed to `/appeal`, where they can submit a private
 statement for human review. Apply migrations with `pnpm db:push` before
 deploying UI changes so the appeal RPCs and review table exist first.
 
+### Appeal email operations
+
+New appeals can notify the shared reviewer at `info@tryswoon.live`. The email
+contains the restriction type, submission time, and a link to the protected
+Appeals queue; the member's statement stays in Supabase and is never copied
+into email. Email delivery is fail-open, so an unavailable provider never
+loses an appeal or changes the member's successful submission.
+
+Production setup:
+
+1. Create `info@tryswoon.live` through the normal Swoon signup flow, using a
+   password controlled by the mailbox owner. Do not add an automatic
+   email-based role grant to signup.
+2. Run `pnpm reviewer:setup`. This finds that exact existing account, promotes
+   its profile to `moderator`, and verifies the resulting access. If the
+   account does not exist, the command refuses to create it.
+3. In Resend, verify an isolated sending subdomain such as
+   `updates.tryswoon.live` with the provided SPF and DKIM records.
+4. Configure `RESEND_API_KEY`, `APPEAL_REVIEW_EMAIL=info@tryswoon.live`,
+   `APPEAL_EMAIL_FROM=Swoon Appeals <appeals@updates.tryswoon.live>`, and the
+   public production `NEXT_PUBLIC_APP_URL` in the deployment environment.
+5. Submit a controlled appeal, follow the emailed **Review appeal securely**
+   link, sign in as `info@tryswoon.live`, and verify both **Restore account**
+   and **Uphold restriction** are available in `/admin`.
+
+The email link carries no login or moderation token. Existing server-side
+role checks still protect every review action, and the audit log attributes
+decisions to the shared reviewer account.
+
 ## Commands
 
 | Command | What it does |
@@ -47,6 +76,7 @@ deploying UI changes so the appeal RPCs and review table exist first.
 | `pnpm test` | Vitest integration suite against the live Supabase project (RLS allow/deny, matchmaking atomicity, decision no-leak, block/quarantine) |
 | `pnpm test:e2e` | Playwright: two browser contexts run the complete loop with fake camera/mic (temporarily shortens the date timer via `app_config`) |
 | `pnpm db:push` | Apply `supabase/migrations/*.sql` in order (tracked in `schema_migrations`) |
+| `pnpm reviewer:setup` | Promote the existing configured appeal-review mailbox account to moderator and verify its access |
 
 ## Architecture in one paragraph
 
