@@ -3,9 +3,16 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
+import { notifyAppealReviewer } from "@/lib/appeals/notification";
 
 export interface AppealActionState {
   error: string | null;
+}
+
+interface SubmittedAppealProjection {
+  id: string;
+  restriction_status: "suspended" | "banned";
+  created_at: string;
 }
 
 function memberError(message: string): string {
@@ -40,10 +47,52 @@ export async function submitAppeal(
   }
 
   const supabase = await supabaseServer();
-  const { error } = await supabase.rpc("submit_account_appeal", {
+  const { data: appealId, error } = await supabase.rpc(
+    "submit_account_appeal",
+    {
     p_statement: statement,
-  });
+    },
+  );
   if (error) return { error: memberError(error.message) };
+
+  if (typeof appealId === "string") {
+    const { data: appeals, error: projectionError } = await supabase.rpc(
+      "get_my_account_appeals",
+    );
+    const submittedAppeal = (
+      Array.isArray(appeals) ? appeals : []
+    ).find((appeal): appeal is SubmittedAppealProjection => {
+      if (!appeal || typeof appeal !== "object") return false;
+      const row = appeal as Record<string, unknown>;
+      return (
+        row.id === appealId &&
+        (row.restriction_status === "suspended" ||
+          row.restriction_status === "banned") &&
+        typeof row.created_at === "string"
+      );
+    });
+
+    if (!projectionError && submittedAppeal) {
+      try {
+        const notification = await notifyAppealReviewer({
+          appealId,
+          restrictionStatus: submittedAppeal.restriction_status,
+          submittedAt: submittedAppeal.created_at,
+        });
+        if (notification.status !== "sent") {
+          console.error(
+            `[appeal-email] ${notification.reason ?? notification.status} appeal=${appealId}`,
+          );
+        }
+      } catch {
+        console.error(`[appeal-email] delivery_error appeal=${appealId}`);
+      }
+    } else {
+      console.error(
+        `[appeal-email] projection_unavailable appeal=${appealId}`,
+      );
+    }
+  }
 
   revalidatePath("/appeal");
   redirect("/appeal");
