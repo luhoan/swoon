@@ -25,6 +25,7 @@ async function createReadyUser(
   options: {
     role?: "member" | "moderator" | "admin";
     status?: "active" | "suspended" | "banned";
+    onboardingComplete?: boolean;
   } = {},
 ) {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
@@ -42,8 +43,9 @@ async function createReadyUser(
       display_name: name,
       date_of_birth: "1995-06-15",
       city: "Testville",
-      onboarding_complete: true,
-      verification_status: "demo_bypass",
+      onboarding_complete: options.onboardingComplete ?? true,
+      verification_status:
+        options.onboardingComplete === false ? "none" : "demo_bypass",
       role: options.role ?? "member",
       account_status: options.status ?? "active",
     })
@@ -109,6 +111,21 @@ test("member appeal: a banned member can submit a private appeal", async ({
   await page.goto("/appeal");
   await page.waitForURL("**/app/lobby");
   await expect(page.getByText(/Appealer/)).toBeVisible();
+});
+
+test("member appeal: a ban takes priority over incomplete onboarding", async ({
+  page,
+}) => {
+  const user = await createReadyUser("Incomplete Target", {
+    status: "banned",
+    onboardingComplete: false,
+  });
+
+  await login(page, user.email);
+  await page.waitForURL("**/appeal");
+  await expect(
+    page.getByRole("heading", { name: "Your account is restricted" }),
+  ).toBeVisible();
 });
 
 test("moderator: reviews appeals and directly restores banned accounts", async ({
