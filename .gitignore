@@ -21,6 +21,7 @@ test-results/
 .DS_Store
 .vercel/
 .turbo/
+.worktrees/
 
 # browser QA artifacts
 .playwright-mcp/
