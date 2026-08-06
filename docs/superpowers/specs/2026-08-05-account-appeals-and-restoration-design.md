@@ -82,7 +82,7 @@ The existing `/admin` page gains two sections above recently handled reports:
 1. **Appeals** lists open appeals oldest first. Each card shows the member's display name, current account status, restriction snapshot, submission time, and appeal statement. A required internal note accompanies **Restore account** and **Uphold restriction** actions.
 2. **Restricted accounts** lists suspended and banned profiles even when they have no open report or appeal. Reviewers can search by display name or user ID and use **Restore account** with a required reason.
 
-The report queue keeps its existing moderation actions. Its `Reinstate` action is removed from open-report cards because restoration belongs in the restricted-account and appeal sections, where it remains available after a report closes.
+The report queue keeps its existing moderation actions. When an open report has automatically quarantined the reported account, its existing `Reinstate` control remains available but is labeled **Clear quarantine**. Suspended and banned restoration belongs in the restricted-account and appeal sections, where it remains available after a report closes.
 
 Destructive-looking actions use explicit labels and status-dependent styling. Forms display actionable server errors instead of silently returning after failed database writes.
 
